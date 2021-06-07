@@ -1,0 +1,32 @@
+# ------------- general options ----------------------------------------
+save_path = "./insightface_dcp_log/fine-tuning-with-fc/" # log path
+data_path = "/home/dataset/Face/xz_FaceRecognition/faces_ms1m-refine-v2_112x112/faces_emore/" # path for dataset folder
+dataset = "ms1m_v2"  # options: imagenet | cifar10
+seed = 1  # manually set RNG seed
+gpu = "0,1,2,3"  # GPU id to use, e.g. "0,1,2,3"
+print_frequency = 10
+
+# ------------- data options -------------------------------------------
+n_threads = 8  # number of threads used for data loading
+n_classes = 0  # number of classes in the dataset
+
+# ------------- common optimization options ----------------------------
+batch_size = 512  # mini-batch size
+momentum = 0.9  # momentum
+weight_decay = 5e-4  # weight decay
+lr = 0.01  # initial learning rate
+n_epochs = 28  # number of total epochs
+step = [8,16,24]  # multi-step for linear learning rate
+warmup_n_epochs = 0  # number of warm up epochs
+warmup_lr = 0.01  # warm up learning rate
+
+# ------------- model options ------------------------------------------
+net_type = "LResnetxE-IR"  # options: resnet | preresnet
+depth = 34                 # resnet depth: (n-2)%6==0
+experiment_id = "20190602_test_2"  # experiment identifier
+embedding_size = 512
+
+# ------------- resume or retrain options ------------------------------
+# dcp_0.999_test
+pretrained = "/home/xiezheng/programs2019/insightface_DCP/dcp/insightface_dcp_log/channel_pruning_with_fc/log_cs_LResnetxE-IR_d34_ms1m_v2_bs256_n2_p0.999_lr0.001_20190610_continue_prun_fc_test_3/check_point/model_003_cs_000.pth"
+resume = ""

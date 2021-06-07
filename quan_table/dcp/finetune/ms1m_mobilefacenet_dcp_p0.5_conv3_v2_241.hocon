@@ -1,0 +1,33 @@
+# ------------- general options ----------------------------------------
+save_path = "./insightface_dcp_log/fine-tuning/" # log path
+data_path = "/mnt/ssd/faces/faces_emore/" # path for dataset folder
+dataset = "ms1m_v2"  # options: imagenet | cifar10
+seed = 1  # manually set RNG seed
+gpu = "3,6"  # GPU id to use, e.g. "0,1,2,3"
+print_frequency = 10
+
+# ------------- data options -------------------------------------------
+n_threads = 16  # number of threads used for data loading
+n_classes = 0  # number of classes in the dataset
+
+# ------------- common optimization options ----------------------------
+batch_size = 768  # mini-batch size
+momentum = 0.9  # momentum
+weight_decay = 5e-4  # weight decay
+lr = 0.01  # initial learning rate
+n_epochs = 28  # number of total epochs
+step = [6,12,18,24]  # multi-step for linear learning rate
+warmup_n_epochs = 0  # number of warm up epochs
+warmup_lr = 0.01  # warm up learning rate
+cos_lr = True
+
+# ------------- model options ------------------------------------------
+net_type = "mobilefacenet_v1"  # options: resnet | preresnet
+depth = 0                      # resnet depth: (n-2)%6==0
+embedding_size = 128
+experiment_id = "20190603_conv3_p0.5_97.00_cos_lr"     # experiment identifier
+
+# ------------- resume or retrain options ------------------------------
+# dcp_0.5, 0_auxnet_val_lfw_acc =0.9770, 1_auxnet_val_lfw_acc =0.9777, 2_auxnet_val_lfw_acc =0.9700
+pretrained = "/home/xiezheng/program2019/insightface_DCP/dcp/insightface_dcp_log/channel_pruning/log_cs_mobilefacenet_v1_d0_ms1m_v2_bs256_n2_p0.500_lr0.001_20190604_conv3_aux_fc1_lfw_99.50/check_point/model_003_cs_000.pth"
+resume = "" # resume checkpoint

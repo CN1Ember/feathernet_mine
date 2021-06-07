@@ -1,0 +1,30 @@
+# ------------- general options ----------------------------------------
+save_path = "./insightface_dcp_log/fine-tuning/" # log path
+data_path = "/home/datasets/Face/FaceRecognition/faces_ms1m-refine-v2_112x112/faces_emore/" # path for dataset folder
+dataset = "ms1m_v2"  # options: imagenet | cifar10
+seed = 1  # manually set RNG seed
+gpu = "1"  # GPU id to use, e.g. "0,1,2,3"
+print_frequency = 10
+
+# ------------- data options -------------------------------------------
+n_threads = 10  # number of threads used for data loading
+n_classes = 0  # number of classes in the dataset
+
+# ------------- common optimization options ----------------------------
+batch_size = 256  # mini-batch size
+momentum = 0.9  # momentum
+weight_decay = 5e-4  # weight decay
+lr = 0.1  # initial learning rate
+n_epochs = 32  # number of total epochs
+step = [10,20,24,28]  # multi-step for linear learning rate
+warmup_n_epochs = 0  # number of warm up epochs
+warmup_lr = 0.01  # warm up learning rate
+
+# ------------- model options ------------------------------------------
+net_type = "LResnetxE-IR"  # options: resnet | preresnet
+depth = 34  # resnet depth: (n-2)%6==0
+experiment_id = "20190519"  # experiment identifier
+
+# ------------- resume or retrain options ------------------------------
+pretrained = "/home/xiezheng/2019Programs/insightface_DCP/dcp/insightface_dcp_log/channel_pruning/log_cs_LResnetxE-IR34_ms1m_v2_bs256_n2_p0.999_lr0.001_fast_20190519/check_point/model_003_cs_000.pth"
+resume = "" # resume checkpoint

@@ -1,0 +1,36 @@
+# ------------- general options ----------------------------------------
+save_path = "./insightface_dcp_log/fine-tuning/" # log path
+data_path = "/home/dataset/Face/xz_FaceRecognition/faces_ms1m-refine-v2_112x112/faces_emore/" # path for dataset folder
+dataset = "ms1m_v2"  # options: imagenet | cifar10
+seed = 1  # manually set RNG seed
+gpu = "1,2,3,4"  # GPU id to use, e.g. "0,1,2,3"
+print_frequency = 10
+
+# ------------- data options -------------------------------------------
+n_threads = 10  # number of threads used for data loading
+n_classes = 0  # number of classes in the dataset
+
+# ------------- common optimization options ----------------------------
+batch_size = 512  # mini-batch size
+momentum = 0.9  # momentum
+weight_decay = 5e-4  # weight decay
+lr = 0.1  # initial learning rate
+n_epochs = 48  # number of total epochs
+step = [10,20,30,40]  # multi-step for linear learning rate
+warmup_n_epochs = 0  # number of warm up epochs
+warmup_lr = 0.01  # warm up learning rate
+
+# ------------- model options ------------------------------------------
+net_type = "LResnetxE-IR"  # options: resnet | preresnet
+depth = 34                 # resnet depth: (n-2)%6==0
+experiment_id = "20190527_dcp0.5_93.10_todo"  # experiment identifier
+embedding_size = 512
+
+# ------------- resume or retrain options ------------------------------
+# dcp_0.3, 0_auxnet_val_lfw_acc =0.9768, 1_auxnet_val_lfw_acc =0.9847, 2_auxnet_val_lfw_acc =0.9225
+# pretrained = "/home/xiezheng/programs2019/insightface_DCP/dcp/insightface_dcp_log/channel_pruning/log_cs_LResnetxE-IR34_ms1m_v2_bs256_n2_p0.300_lr0.001_20190519/check_point/model_003_cs_000.pth"
+
+# dcp_0.5, 0_auxnet_val_lfw_acc =0.9722, 1_auxnet_val_lfw_acc =0.9820, 2_auxnet_val_lfw_acc =0.9310
+pretrained = "/home/xiezheng/programs2019/insightface_DCP/dcp/insightface_dcp_log/channel_pruning/log_cs_LResnetxE-IR34_ms1m_v2_bs256_n2_p0.500_lr0.001_20190519/check_point/model_003_cs_000.pth"
+
+resume = "/home/xiezheng/programs2019/insightface_DCP/dcp/insightface_dcp_log/fine-tuning/log_ft_LResnetxE-IR_ms1m_v2_bs512_e48_lr0.100_step[10, 20, 30, 40]_20190527_dcp0.5_93.10/check_point/checkpoint_020.pth" # resume checkpoint

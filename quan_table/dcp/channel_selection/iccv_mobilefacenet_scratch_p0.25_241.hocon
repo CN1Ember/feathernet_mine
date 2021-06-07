@@ -1,0 +1,37 @@
+# ------------- general options ----------------------------------------
+save_path = "/home/liujing/NFS/ICCV_challenge/xz_log/iccv_emore_log_gdc/baseline/mobilefacenet/2stage/dim128/auxnet_before_channel_selection/" # log path
+data_path = "/mnt/ssd/faces/iccv_challenge/train/ms1m-retinaface-t1" # path for dataset folder
+dataset = "iccv_ms1m"  # options: imagenet | cifar10 | ms1m_v2 | iccv_ms1m
+seed = 1  # manually set RNG seed
+gpu = "3"  # GPU id to use, e.g. "0,1,2,3"
+
+# ------------- data options -------------------------------------------
+n_threads = 8  # number of threads used for data loading
+n_classes = 0   # number of classes in the dataset
+
+# ------------- discrimination-aware options ---------------------------
+n_losses = 2          # number of additional losses
+pruning_rate = 0.25    # pruning rate: 0.25, 0.3, 0.5
+softmax_weight = 1.0  # weight of the softmax loss
+mse_weight = 1.0      # weight of the mean square loss
+
+prepare_features = True
+max_samples = 10000  # maximum sample size used for channel selection, -1 means using whole data set
+
+# ------------- common optimization options ----------------------------
+batch_size = 200  # mini-batch size
+momentum = 0.9  # momentum
+weight_decay = 1e-4  # weight decay
+layer_wise_lr = 0.001  # learning rate for sub problem (8)
+
+# ------------- model options ------------------------------------------
+net_type = "mobilefacenet_v1"    # options: resnet | preresnet | mobilefacenet_v1
+depth = 0                        # resnet depth: (n-2)%6==0
+embed_size = 128
+
+experiment_id = "20190819_prun_conv3_scratch"       # experiment identifier
+
+# ------------- resume or retrain options ------------------------------
+# new_mobilefacenet_p0.25: 0_auxnet_val_lfw_acc =?, 1_auxnet_val_lfw_acc =?, 2_auxnet_val_lfw_acc =0.9950
+pretrained = "/home/liujing/NFS/ICCV_challenge/xz_log/iccv_emore_log_gdc/baseline/mobilefacenet/2stage/dim128/auxnet_before_channel_selection/log_aux_mobilefacenetv2_baseline_128_arcface_iccv_emore_bs200_e12_lr0.100_step[3, 6, 9]_auxnet_softmax_arcface_label_nosmooth_warmup_test_20190730/check_point/checkpoint_011.pth"
+resume = ""

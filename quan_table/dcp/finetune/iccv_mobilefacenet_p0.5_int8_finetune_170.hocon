@@ -1,0 +1,33 @@
+# ------------- general options ----------------------------------------
+save_path = "/home/liujing/NFS/ICCV_challenge/xz_log/iccv_emore_log_gdc/baseline/mobilefacenet/2stage/dim128/quantization/" # log path
+data_path = "/mnt/ssd/datasets/Faces/train/ms1m-retinaface-t1"
+dataset = "iccv_ms1m"     # option: iccv_emore
+seed = 1  # manually set RNG seed
+gpu = "4,5"  # GPU id to use, e.g. "0,1,2,3"
+print_frequency = 10
+
+# ------------- data options -------------------------------------------
+n_threads = 8  # number of threads used for data loading
+n_classes = 0  # number of classes in the dataset
+
+# ------------- common optimization options ----------------------------
+batch_size = 256  # mini-batch size
+momentum = 0.9  # momentum
+weight_decay = 4e-5  # weight decay
+lr = 0.001  # initial learning rate
+n_epochs = 18  # number of total epochs
+step = []  # multi-step for linear learning rate
+warmup_n_epochs = 0  # number of warm up epochs
+warmup_lr = 0.01  # warm up learning rate
+cos_lr = True
+
+# ------------- model options ------------------------------------------
+net_type = "mobilefacenet_v1_p0.5"  # options: resnet | preresnet
+depth = 0                           # resnet depth: (n-2)%6==0
+embed_size = 128
+experiment_id = "new_mf_p0.5_cos_lr_w_a_int8_finetune_20190806_wd4e-5"     # experiment identifier
+
+# ------------- resume or retrain options ------------------------------
+# dcp_0.5_finetuned, val_lfw_acc = 0.994667, val_cfp_acc =0.946571, age_acc =0.955833
+pretrained = "/home/liujing/NFS/ICCV_challenge/xz_log/iccv_emore_log_gdc/baseline/mobilefacenet/2stage/dim128/finetune/log_aux_mobilefacenetv2_baseline_128_arcface_iccv_emore_bs512_e36_lr0.010_step[15, 25, 31]_bs512_cosine_finetune_20190804/check_point/checkpoint_033.pth"
+resume = "" # resume checkpoint

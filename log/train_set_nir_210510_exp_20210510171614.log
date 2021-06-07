@@ -1,0 +1,119 @@
+root path:/mnt/cephfs/dataset/face_anti_spoofing_lock/fas_nir_datasets/fas_dataset_nir_20200813_mask/trainset/
+src train filelist:./data/train_file_list/exp_train_set_nir_21042701_exp_20210427212131
+positive root path:/mnt/cephfs/dataset/face_anti_spoofing_lock/fas_nir_datasets/fas_dataset_nir_20200813_mask/trainset/positive
+negative root path:/mnt/cephfs/dataset/face_anti_spoofing_lock/fas_nir_datasets/fas_dataset_nir_20200813_mask/trainset/negative
+src train filelist path:/mnt/cephfs/dataset/face_anti_spoofing_lock/fas_nir_datasets/fas_dataset_nir_20200813_mask/trainset/
+src train train-data size:84071
+src val train-data size:20179
+src positive train-data size:31462
+src negative train-data size:52609
+src positive validation size:9223
+src negative validation size:10956
+***************************************************************************************
+neg train:40
+neg train:43
+neg train:22
+neg train:29
+neg train:61
+neg train:100
+neg train:45
+neg train:42
+neg train:88
+neg train:1
+neg train:97
+neg train:64
+neg train:62
+neg train:14
+neg train:69
+neg train:99
+neg train:103
+neg train:2
+neg train:75
+neg train:105
+neg train:59
+neg train:48
+neg train:35
+neg train:28
+neg train:110
+neg train:25
+neg train:82
+neg train:16
+neg train:18
+neg train:94
+neg train:107
+neg train:89
+neg train:98
+neg train:13
+neg train:10
+neg train:33
+neg train:83
+neg train:39
+neg train:80
+neg train:37
+neg train:53
+neg train:0
+neg train:17
+neg train:36
+neg train:66
+neg train:77
+neg train:47
+neg train:108
+neg train:78
+neg train:67
+neg train:60
+neg train:85
+neg train:24
+neg train:30
+neg train:79
+neg train:73
+neg train:104
+neg train:57
+neg train:71
+neg train:6
+neg train:68
+neg train:65
+neg train:52
+neg train:8
+neg train:9
+neg train:70
+neg train:41
+neg train:31
+neg train:106
+neg train:63
+neg train:76
+neg train:96
+neg train:7
+neg train:26
+neg train:95
+neg train:81
+neg train:91
+neg train:49
+neg train:46
+neg train:93
+neg train:50
+neg train:38
+neg train:74
+neg train:19
+neg train:51
+neg val:27
+neg val:11
+neg val:56
+neg val:109
+neg val:84
+neg val:4
+neg val:54
+neg val:12
+neg val:72
+neg val:87
+neg val:101
+neg val:55
+neg val:44
+neg val:5
+neg val:3
+neg val:32
+neg val:102
+neg val:20
+neg val:86
+neg val:92
+neg val:34
+neg val:23

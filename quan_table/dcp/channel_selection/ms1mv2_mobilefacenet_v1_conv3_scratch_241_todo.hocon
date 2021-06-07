@@ -1,0 +1,39 @@
+# ------------- general options ----------------------------------------
+save_path = "./insightface_dcp_log/iccv_channel_pruning/" # log path
+data_path = "/mnt/ssd/faces/faces_emore/" # path for dataset folder
+dataset = "ms1m_v2"  # options: imagenet | cifar10 | ms1m_v2
+seed = 1  # manually set RNG seed
+gpu = "1"  # GPU id to use, e.g. "0,1,2,3"
+
+# ------------- data options -------------------------------------------
+n_threads = 4  # number of threads used for data loading
+n_classes = 0   # number of classes in the dataset
+
+# ------------- discrimination-aware options ---------------------------
+n_losses = 2          # number of additional losses
+pruning_rate = 0.5    # pruning rate: 0.25, 0.3, 0.5
+softmax_weight = 1.0  # weight of the softmax loss
+mse_weight = 1.0      # weight of the mean square loss
+
+prepare_features = True
+max_samples = 10000  # maximum sample size used for channel selection, -1 means using whole data set
+
+# ------------- common optimization options ----------------------------
+batch_size = 256  # mini-batch size
+momentum = 0.9  # momentum
+weight_decay = 1e-4  # weight decay
+layer_wise_lr = 0.001  # learning rate for sub problem (8)
+
+# ------------- model options ------------------------------------------
+net_type = "mobilefacenet_v1"    # options: resnet | preresnet | mobilefacenet_v1
+depth = 0                        # resnet depth: (n-2)%6==0
+embed_size = 128
+
+experiment_id = "p_conv3_scratch_20190723_prun_seg3_test"       # experiment identifier
+
+# ------------- resume or retrain options ------------------------------
+# pretrained = "/home/liujing/NFS/ICCV_challenge/xz_log/iccv_emore_log_gdc/baseline/mobilefacenet/log_aux_mobilefacenetv2_baseline_512_arcface_iccv_emore_bs200_e12_lr0.100_step[3, 6, 9]_auxnet_n2_ftfc_arcface_new_op_20190721/check_point/checkpoint_011.pth"
+
+pretrained = ""
+# continues pruning s3 + p0.5_conv3: 0_auxnet_val_lfw_acc =0.9770, 1_auxnet_val_lfw_acc =0.9777, 2_auxnet_val_lfw_acc =0.9790
+resume = "/home/xiezheng/program2019/insightface_DCP/dcp/insightface_dcp_log/channel_pruning/log_cs_mobilefacenet_v1_d0_ms1m_v2_bs256_n2_p0.500_lr0.001_20190604_conv3_aux_fc1_lfw_99.50/check_point/checkpoint_001_cs_012.pth" # resume checkpoint

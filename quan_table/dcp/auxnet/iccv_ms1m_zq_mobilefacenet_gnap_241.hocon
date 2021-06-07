@@ -1,0 +1,35 @@
+# ------------- general options ----------------------------------------
+save_path = "./iccv_dcp_log/auxnet/" # log path
+
+data_path = "/mnt/ssd/faces/iccv_challenge/train/ms1m-retinaface-t1"  # path for dataset folder
+dataset = "iccv_ms1m"  # options: imagenet | cifar10
+seed = 1  # manually set RNG seed
+gpu = "2,3,6,7"  # GPU id to use, e.g. "0,1,2,3"
+print_frequency = 10
+
+# ------------- data options -------------------------------------------
+n_threads = 8  # number of threads used for data loading
+
+# ------------- discrimination-aware options ---------------------------
+n_losses = 2  # number of additional losses
+n_classes = 0
+
+# ------------- common optimization options ---------------------------
+batch_size = 160     # mini-batch size
+momentum = 0.9       # momentum
+weight_decay = 4e-4  # weight decay
+lr = 0.1             # initial learning rate
+n_epochs = 8        # number of total epochs
+step = []    # multi-step for linear learning rate
+
+# ------------- model options ------------------------------------------
+net_type = "zq_mobilefacenet"   # options: resnet | preresnet | LResnetxE-IR | mobilefacenet_v1 |
+depth = 0                       # resnet depth: (n-2)%6==0
+fc_type = "gnap"
+
+loss_type = "softmax"                  # "softmax", "softmax-arcface", "arcface"
+experiment_id = "20190617_aux_softmax_end_softmax"  # experiment identifier
+
+# ------------- resume or retrain options ------------------------------
+pretrained = ""
+resume = "" # resume checkpoint

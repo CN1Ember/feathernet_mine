@@ -1,0 +1,11 @@
+common:
+    arch: FaceFeatherNet_v3
+    workers: 4
+    batch_size: 64
+    epochs: 180
+    policy: "step"
+    base_lr: 0.01
+    momentum: 0.9
+    weight_decay: 0.0001
+    print_freq: 10
+    save_path: checkpoints/FaceFeatherNetA_nir_1104_ft
