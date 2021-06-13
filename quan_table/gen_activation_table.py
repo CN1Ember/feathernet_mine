@@ -180,9 +180,9 @@ def parse_arguments(argv):
     #                     default='/home/xiezheng/lidaiyuan/Face_integration/pretrain_model/checkpoint_25.pth.table')
 
     parser.add_argument('--model_path', type=str, help='model_path',
-                        default='../checkpoints/FaceFeatherNetA_mutift_nir_210315_kd_0.5/_111_best_cut.pth.tar')
+                        default='/mnt/cephfs/home/chenguo/code/FAS/feathernet2021/feathernet_mine/checkpoints/FaceFeatherNetA_mutift_nir_rgb_210607/_84_cut.pth.tar')
     parser.add_argument('--table_path', type=str, help='table_path',
-                        default='../checkpoints/table/FaceFeatherNetA_mutift_nir_210315_kd_0.5_111_best_cut.table')   
+                        default='../checkpoints/table/FaceFeatherNetA_mutift_nir_rgb_210607_84_cut.table')   
 
     # 186
     parser.add_argument('--gpu', type=str, help='gpu', default='3')

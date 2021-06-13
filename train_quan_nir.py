@@ -50,7 +50,7 @@ parser.add_argument('--start-epoch', default=0, type=int, metavar='N',
                     help='manual epoch number (useful on restarts)')
 parser.add_argument("--random-seed", type=int, default=14,
                     help='Seed to provide (near-)reproducibility.')
-parser.add_argument('--gpus', type=str, default='3', help='use gpus training eg.--gups 0,1')
+parser.add_argument('--gpus', type=str, default='0,1,2,3', help='use gpus training eg.--gups 0,1')
 parser.add_argument('-b', '--batch-size', default=32, type=int,
                     metavar='N', help='mini-batch size (default: 256)')
 parser.add_argument('--lr', '--learning-rate', default=0.1, type=float,
@@ -368,27 +368,27 @@ def validate(val_loader, model, criterion, epoch):
         print("tn, fp, fn, tp: ",tn, fp, fn, tp)
         with open('logs/quan_{}_{}.log'.format(time_stp, args.arch), 'a+') as flog:
                 flog.write("tn %d, fp %d, fn %d, tp %d\n"%(tn, fp, fn, tp))
-        # apcer = fp / (tn + fp)
-        # npcer = fn / (fn + tp)
-        # acer = (apcer + npcer) / 2
-        # metric = roc.cal_metric(label_list, result_list)
-        # eer = metric[0]
-        # tprs = metric[1]
-        # auc = metric[2]
-        # xy_dic = metric[3]
-        # #     tpr1 = tprs['TPR@FPR=10E-2']
-        # #     logger.info('eer: {}\t'
-        # #                 'tpr1: {}\t'
-        # #                 'auc: {}\t'
-        # #                 'acer: {}\t'
-        # #                 'accuracy: {top1.avg:.3f} ({top1.avg:.3f})'
-        # #           .format(eer,tpr1,auc,acer,top1=top1))
-        # #     pickle.dump(xy_dic, open('xys/xy_{}_{}_{}.pickle'.format(time_stp, args.arch,epoch),'wb'))
-        # with open('logs/val_result_{}_{}.txt'.format(time_stp, args.arch), 'a+') as f_result:
-        #     result_line = 'epoch: {} EER: {:.6f} TPR@FPR=10E-2: {:.6f} TPR@FPR=10E-3: {:.6f} APCER:{:.6f} NPCER:{:.6f} AUC: {:.8f} Acc:{:.3f} TN:{} FP : {} FN:{} TP:{}  ACER:{:.8f} '.format(
-        #         epoch, eer, tprs["TPR@FPR=10E-2"], tprs["TPR@FPR=10E-3"], apcer, npcer, auc, top1.avg, tn, fp, fn, tp, acer)
-        #     f_result.write('{}\n'.format(result_line))
-        #     print(result_line)
+        apcer = fp / (tn + fp)
+        npcer = fn / (fn + tp)
+        acer = (apcer + npcer) / 2
+        metric = roc.cal_metric(label_list, result_list)
+        eer = metric[0]
+        tprs = metric[1]
+        auc = metric[2]
+        xy_dic = metric[3]
+        #     tpr1 = tprs['TPR@FPR=10E-2']
+        #     logger.info('eer: {}\t'
+        #                 'tpr1: {}\t'
+        #                 'auc: {}\t'
+        #                 'acer: {}\t'
+        #                 'accuracy: {top1.avg:.3f} ({top1.avg:.3f})'
+        #           .format(eer,tpr1,auc,acer,top1=top1))
+        #     pickle.dump(xy_dic, open('xys/xy_{}_{}_{}.pickle'.format(time_stp, args.arch,epoch),'wb'))
+        with open('logs/val_result_{}_{}.txt'.format(time_stp, args.arch), 'a+') as f_result:
+            result_line = 'epoch: {} EER: {:.6f} TPR@FPR=10E-2: {:.6f} TPR@FPR=10E-3: {:.6f} APCER:{:.6f} NPCER:{:.6f} AUC: {:.8f} Acc:{:.3f} TN:{} FP : {} FN:{} TP:{}  ACER:{:.8f} '.format(
+                epoch, eer, tprs["TPR@FPR=10E-2"], tprs["TPR@FPR=10E-3"], apcer, npcer, auc, top1.avg, tn, fp, fn, tp, acer)
+            f_result.write('{}\n'.format(result_line))
+            print(result_line)
     else:
          print("something error with confusion_matrix(), label_list, predicted list: ", len(label_list), len(predicted_list))
          print(confusion_vector.ravel().shape)

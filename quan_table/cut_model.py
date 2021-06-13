@@ -5,7 +5,7 @@ import sys
 sys.path.insert(1,'../')
 from models import *
 
-checkpoint = torch.load('../checkpoints/FaceFeatherNetA_mutift_nir_210315_kd_0.5/_111_best.pth.tar')
+checkpoint = torch.load('/mnt/cephfs/home/chenguo/code/FAS/feathernet2021/feathernet_mine/checkpoints/FaceFeatherNetA_mutift_nir_rgb_210607/_84.pth.tar')
 # print(checkpoint['model'])
 # print(checkpoint['model'].keys())
 remove_weight_list = []
@@ -32,4 +32,4 @@ net = FaceFeatherNet_v3()
 
 net.load_state_dict(checkpoint['model'])
 print(net.state_dict())
-torch.save(net.state_dict(), '../checkpoints/FaceFeatherNetA_mutift_nir_210315_kd_0.5/_111_best_cut.pth.tar')
+torch.save(net.state_dict(), '/mnt/cephfs/home/chenguo/code/FAS/feathernet2021/feathernet_mine/checkpoints/FaceFeatherNetA_mutift_nir_rgb_210607/_84_cut.pth.tar')
