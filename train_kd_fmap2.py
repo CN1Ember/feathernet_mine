@@ -35,7 +35,7 @@ from read_data.read_data_fmap2 import CASIA
 from prefetch_generator import BackgroundGenerator, background
 
 model_names = sorted(name for name in models.__dict__
-                     if name.islower() and not name.startswith("__")
+                     if not name.startswith("__")
                      and callable(models.__dict__[name]))
 parser = argparse.ArgumentParser(description='PyTorch ImageNet Training')
 parser.add_argument('--arch', '-a', metavar='ARCH', default='resnet18',
@@ -96,7 +96,7 @@ parser.add_argument('--data_flag', type=str, default='exp_train_set_210226_exp_2
 best_prec1 = 0
 
 model_names = sorted(name for name in models.__dict__
-                     if name.islower() and not name.startswith("__")
+                     if not name.startswith("__")
                      and callable(models.__dict__[name]))
 
 USE_GPU = torch.cuda.is_available()

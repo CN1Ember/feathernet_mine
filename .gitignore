@@ -1,4 +1,5 @@
 checkpoints/
-log*/
+log/
 logs/
+logs_visualization/
 *.log

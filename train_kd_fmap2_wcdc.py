@@ -4,7 +4,7 @@
 
 import os
 os.environ['KMP_WARNINGS'] = 'off'
-os.environ["CUDA_VISIBLE_DEVICES"] = "5,6"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3,4,5,6,7"
 import cv2
 import argparse
 import time
@@ -30,7 +30,7 @@ import models
 from read_data.read_data import CASIA
 from losses import *
 from tools.benchmark import compute_speed, stat
-from read_data.read_data_fmap import CASIA
+from read_data.read_data_fmap2 import CASIA
 
 from prefetch_generator import BackgroundGenerator, background
 
@@ -57,7 +57,7 @@ parser.add_argument('--start-epoch', default=0, type=int, metavar='N',
                     help='manual epoch number (useful on restarts)')
 parser.add_argument("--random-seed", type=int, default=14,
                     help='Seed to provide (near-)reproducibility.')
-parser.add_argument('--gpus', type=str, default='0', help='use gpus training eg.--gups 0,1')
+parser.add_argument('--gpus', type=str, default='2,3', help='use gpus training eg.--gups 0,1')
 parser.add_argument('--b', '--batch-size', default=64, type=int,
                     metavar='N', help='mini-batch size (default: 256)')
 parser.add_argument('--lr', '--learning-rate', default=0.01, type=float,
@@ -68,7 +68,7 @@ parser.add_argument('--weight-decay', '--wd', default=1e-4, type=float,
                     metavar='W', help='weight decay (default: 1e-4)')
 parser.add_argument('--print-freq', '-p', default=10, type=int,
                     metavar='N', help='print frequency (default: 10)')
-parser.add_argument('--resume', default='', type=str, metavar='PATH',
+parser.add_argument('--resume', default=None, type=str, metavar='PATH',
                     help='path to latest checkpoint (default: none)')
 parser.add_argument('--val', '--evaluate', dest='evaluate', default=False, type=bool,
                     help='evaluate models on validation set')
@@ -79,6 +79,7 @@ parser.add_argument('--phase-test', default=False, type=bool,
 parser.add_argument('--train_image_list', default='', type=str, help='path to train image list')
 parser.add_argument('--input_size', default=112, type=int, help='img crop size')
 parser.add_argument('--image_size', default=112, type=int, help='ori img size')
+parser.add_argument('--feat_map_size', default=14, type=int, help='ori img size')
 parser.add_argument('--model_name', default='', type=str, help='name of the models')
 parser.add_argument('--speed', '--speed-test', default=False, type=bool,
                     help='whether to speed test')
@@ -192,10 +193,15 @@ def main():
             checkpoint = torch.load(args.kd)
             # args.start_epoch = checkpoint['epoch']
             # best_prec1 = checkpoint['best_prec1']
-            teacher.module.load_state_dict(checkpoint['model'])
-            # optimizer.load_state_dict(checkpoint['optimizer'])
-            print("=> loaded checkpoint '{}' (epoch {})"
+            if 'model' in checkpoint.keys():
+                teacher.module.load_state_dict(checkpoint['model'])
+                print("=> loaded checkpoint '{}' (epoch {})"
                   .format(args.kd, checkpoint['epoch']))
+            else:
+                teacher.module.load_state_dict(checkpoint)
+                print("there are no epoch info in checkpoints file\n")
+            # optimizer.load_state_dict(checkpoint['optimizer'])
+
 
     # Data loading code
     # normalize = transforms.Normalize(mean=[0.14300402, 0.1434545, 0.14277956],
@@ -285,21 +291,24 @@ def train(train_loader, model, teacher, criterion, fmap_criterion, optimizer, ep
     teacher.train()
 
     end = time.time()
-    for i, (input, target, target_map) in enumerate(train_loader):
+    for i, (input, target, target_map2) in enumerate(train_loader):
         # measure data loading time
         data_time.update(time.time() - end)
         input_var = Variable(input).float().to(device)
         target_var = Variable(target).long().to(device)
-        target_map_var = Variable(target_map).long().to(device)
+        # target_map_var = Variable(target_map).long().to(device)
+        target_map_var2 = Variable(target_map2).long().to(device)
+
 
         # compute output
-        output,fm_output = model(input_var)
+        output = model(input_var)
         teacher_output = teacher(input_var)
 
         loss = criterion(output, target_var)
-        loss_fm = fmap_criterion(fm_output, target_map_var)
+        # loss_fm = fmap_criterion(fm_ouput2, target_map_var2) 
+
         kl_loss = loss_kl(output, teacher_output[:, :256])
-        overall_loss = 0.5 * loss + 0.5 * kl_loss + 0.5 * loss_fm
+        overall_loss = 0.5 * loss + 0.5 * kl_loss 
 
         prec1, prec2 = accuracy(output.data, target_var, topk=(1, 2))
 
@@ -309,12 +318,12 @@ def train(train_loader, model, teacher, criterion, fmap_criterion, optimizer, ep
         top1.update(reduced_prec1[0])
 
         reduced_loss = loss.data.clone()
-        reduced_fm_loss = loss_fm.data.clone()
+        # reduced_fm_loss = loss_fm.data.clone()
 
         losses.update(reduced_loss)
         reduced_kl_loss = kl_loss.data.clone()
         kl_losses.update(reduced_kl_loss)
-        fm_losses.update(reduced_fm_loss)
+        # fm_losses.update(reduced_fm_loss)
         reduced_overall_loss = overall_loss.data.clone()
         overall_losses.update(reduced_overall_loss)
 
@@ -335,15 +344,14 @@ def train(train_loader, model, teacher, criterion, fmap_criterion, optimizer, ep
                        'Time {batch_time.val:.3f} ({batch_time.avg:.3f})\t' \
                        'Loss {loss.val:.4f} ({loss.avg:.4f})\t' \
                        'KL_Loss {kl_loss.val:.4f} ({kl_loss.avg:.4f})\t' \
-                       'Feat_map_Loss {fm_losses.val:.4f} ({fm_losses.avg:.4f})\t' \
                        'Overall_Loss {overall_loss.val:.4f} ({overall_loss.avg:.4f})\t' \
                        'Prec@1 {top1.val:.3f} ({top1.avg:.3f})\t' \
                     .format(epoch, i, len(train_loader), lr,
-                            batch_time=batch_time, loss=losses, kl_loss=kl_losses, fm_losses = fm_losses, overall_loss=overall_losses, top1=top1)
+                            batch_time=batch_time, loss=losses, kl_loss=kl_losses, overall_loss=overall_losses, top1=top1)
                 print(line)
                 flog.write('{}\n'.format(line))
     # =================== Log =============================
-    info = {'train_loss': losses.avg, 'train_kl_loss': kl_losses.avg, 'train_fmap_loss': fm_losses.avg, 'train_overall_loss': overall_losses.avg, 'train_accuracy': top1.avg, 'learning_rate': lr}
+    info = {'train_loss': losses.avg, 'train_kl_loss': kl_losses.avg, 'train_overall_loss': overall_losses.avg, 'train_accuracy': top1.avg, 'learning_rate': lr}
     for tag, value in info.items():
         logger.scalar_summary(tag, value, epoch)
 
@@ -368,7 +376,7 @@ def validate(val_loader, model, criterion, epoch):
                 target_var = Variable(target).long().to(device)
 
                 # compute output
-                output,_ = model(input_var)
+                output = model(input_var)
                 # print(output,target_var.shape)
                 loss = criterion(output, target_var)
 

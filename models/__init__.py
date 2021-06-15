@@ -11,3 +11,4 @@ from .ResFeatherNet_mutipixelsp import *
 from .FeatherNet_NIR import *
 from .FaceFeatherNet_v3_pixelsp import *
 from .FaceFeatherNet_v3_mutipixelsp import *
+from .CDCFeatherNet import *
