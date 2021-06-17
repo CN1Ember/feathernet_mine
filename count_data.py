@@ -1,6 +1,6 @@
 
 
-filename='/mnt/cephfs/home/chenguo/code/FAS/feathernet2021/feathernet_mine/data/test_file_list/nir_20210612_val_label.txt'
+filename='/mnt/cephfs/home/chenguo/code/FAS/feathernet2021/feathernet_mine/data/train_file_list/exp_train_set_21060301_exp_20210603221606NIR_train_label.txt'
 
 with open (filename,'r') as f:
     a=f.readlines()
