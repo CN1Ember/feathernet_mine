@@ -1,3 +1,4 @@
+from numpy.lib.type_check import imag
 import torch
 from PIL import Image
 import numpy as np
@@ -8,6 +9,7 @@ import os
 from utils.utils import AverageMeter, accuracy, \
     get_logger, get_learning_rate, update_lr
 import cv2
+from tqdm import tqdm
 
 
 live_path = '/mnt/cephfs/dataset/face_recognition/nir_data/jidian_nir_1224_clean/'
@@ -19,10 +21,21 @@ fake_path = '/mnt/cephfs/dataset/face_recognition/nir_data/jidian_nir_1224_clean
 pretrained_path = "./model_file/checkpoint_25.pth"
 
 def inference_store_the_face_feat_as_str(model, file_lst, store_file):
-    for image_path in file_lst:
-        image = cv2.imread(image_path)
+
+    normalize = transforms.Normalize([0.5, 0.5, 0.5], [0.501960784, 0.501960784, 0.501960784])
+    train_transform = transforms.Compose([transforms.ToPILImage(),
+                                        transforms.ToTensor(),
+                                        normalize])
+                                        
+    for image_path in tqdm(file_lst):
+        image = cv2.imread(image_path,1)
+        # print(image.shape)
         image = train_transform(image)
-        image = cv2.cvtColor(image,cv2.COLOR_RGB2BGR)
+        # print(image.shape)
+        image = image.unsqueeze(0)
+        # image = cv2.cvtColor(image,cv2.COLOR_RGB2BGR)
+        # print(image.shape)
+        
         output = model(image)
         output_list = output.detach().numpy().squeeze()
         feat_str = ','.join(list(map(str,output_list)))
