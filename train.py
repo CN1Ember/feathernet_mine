@@ -55,7 +55,7 @@ parser.add_argument('--start-epoch', default=0, type=int, metavar='N',
                     help='manual epoch number (useful on restarts)')
 parser.add_argument("--random-seed", type=int, default=14,
                     help='Seed to provide (near-)reproducibility.')
-parser.add_argument('--gpus', type=str, default='1,2,3,4', help='use gpus training eg.--gups 0,1')
+parser.add_argument('--gpus', type=str, default='0,1,2,3', help='use gpus training eg.--gups 0,1')
 parser.add_argument('--b', '--batch-size', default=64, type=int,
                     metavar='N', help='mini-batch size (default: 256)')
 parser.add_argument('--lr', '--learning-rate', default=0.1, type=float,
